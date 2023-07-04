@@ -1,5 +1,6 @@
 import dotenv from "dotenv";
 import BlogItem from "../components/BlogItem";
+import { IArticleBlog } from "../components/IArticleBlog";
 
 dotenv.config();
 
@@ -39,9 +40,9 @@ export default async function Article() {
         <div className="my-auto">New article</div>
       </div>
 
-      <BlogItem blogTitle={"Test Blog"} blogDate={"04/07/2023"} />
-      <BlogItem blogTitle={"Lorem ipsum"} blogDate={"03/07/2023"} />
-      <BlogItem blogTitle={"Cool little article!"} blogDate={"02/07/2023"} />
+      {data.blogPosts.map((item: IArticleBlog) => (
+        <BlogItem {...item} />
+      ))}
     </main>
   );
 }

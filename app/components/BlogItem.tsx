@@ -1,8 +1,10 @@
-export default async function BlogItem(props: { blogTitle: string; blogDate: string }) {
+import { IArticleBlog } from "./IArticleBlog";
+
+export default async function BlogItem(blogArticle: IArticleBlog) {
   return (
     <div className="flex flex-col gap-2 mt-4">
       <div className="flex flex-row justify-between p-4 bg-white rounded-md">
-        <span className="my-auto">{props.blogTitle}</span>
+        <span className="my-auto">{blogArticle.title}</span>
 
         <div className="flex flex-row justify-center gap-2 text-xs">
           <div>
@@ -10,7 +12,7 @@ export default async function BlogItem(props: { blogTitle: string; blogDate: str
               View
             </div>
           </div>
-          <div className="m-auto mr-4">{props.blogDate}</div>
+          <div className="m-auto mr-4">{new Date(blogArticle.createdAt).toLocaleDateString("en-US")}</div>
 
           <div className="flex flex-row gap-1 m-auto cursor-pointer">
             <span className="m-auto">Edit</span>

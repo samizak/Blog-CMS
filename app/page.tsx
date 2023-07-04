@@ -1,6 +1,7 @@
 import Sidebar from "./components/Sidebar";
 import Dashboard from "./pages/dashboard";
 import Article from "./pages/articles";
+import EditArticle from "./pages/editArticle";
 
 export default async function Home() {
   return (
@@ -9,6 +10,7 @@ export default async function Home() {
 
       {/* <Dashboard /> */}
       <Article />
+      {/* <EditArticle /> */}
     </main>
   );
 }
