@@ -47,8 +47,6 @@ export default function BlogItem(blogArticle: IBlogArticle) {
           <div
             className="flex flex-row m-auto cursor-pointer"
             onClick={async (e) => {
-              console.log(blogArticle);
-
               const res = await DeleteArticle(blogArticle);
 
               if (res.hasOwnProperty("success") && res["success"] === 1) {
@@ -79,9 +77,6 @@ export default function BlogItem(blogArticle: IBlogArticle) {
 }
 
 async function DeleteArticle(blogArticle: IBlogArticle) {
-  console.log(process.env.NEXT_PUBLIC_API_URI + `/api/v1/blogs/${blogArticle._id}`);
-  console.log(JSON.stringify({ id: blogArticle._id }));
-
   const res = await fetch(process.env.NEXT_PUBLIC_API_URI + `/api/v1/blogs/${blogArticle._id}`, {
     method: "DELETE",
     headers: { "Content-Type": "application/json" },

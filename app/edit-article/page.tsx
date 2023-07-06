@@ -11,14 +11,14 @@ async function getData(id: string) {
 }
 
 export default async function EditArticle({ searchParams }: any) {
+  let _id = "";
   let title = "";
   let content = "";
   let createdAt = "";
 
   if (searchParams["id"]) {
     const data = await getData(searchParams["id"]);
-
-    ({ title, content, createdAt } = data.post);
+    ({ _id, title, content, createdAt } = data.post);
     createdAt = new Date(createdAt).toLocaleDateString("en-US");
   }
 
@@ -29,7 +29,7 @@ export default async function EditArticle({ searchParams }: any) {
       <div className="flex flex-col w-full h-screen pt-16 pl-8 pr-8 bg-slate-200">
         <h1 className="text-4xl h-50">Editing Article</h1>
 
-        <ArticleForm title={title} content={content} createdAt={createdAt} />
+        <ArticleForm _id={_id} title={title} content={content} createdAt={createdAt} />
       </div>
     </main>
   );

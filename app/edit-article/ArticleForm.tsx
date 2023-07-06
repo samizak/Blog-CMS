@@ -4,13 +4,13 @@ import React, { useState } from "react";
 
 // DO NOT MARK CLIENT COMPONENTS AS ASYNC
 // IT WILL CAUSE INFINITE RE-RENDERS!!!
-export default function ArticleForm(props: { title: string; content: string; createdAt: string }) {
+export default function ArticleForm(props: { _id: string; title: string; content: string; createdAt: string }) {
   const [title, setTitle] = useState(props.title);
   const [content, setContent] = useState(props.content);
   const [createdAt, setCreatedAt] = useState(props.createdAt);
 
   return (
-    <form onSubmit={handleSubmit} method="post" className="flex-1 p-4 mt-4 bg-white f">
+    <form onSubmit={(e) => handleSubmit(e, props._id)} method="post" className="flex-1 p-4 mt-4 bg-white f">
       <div className="mt-8">
         <div className="flex flex-row gap-1">
           <span className="text-gray-500">Title</span>
@@ -67,25 +67,45 @@ export default function ArticleForm(props: { title: string; content: string; cre
   );
 }
 
-async function handleSubmit(event: any) {
+async function handleSubmit(event: any, id: string) {
   // Stop the form from submitting and refreshing the page.
   event.preventDefault();
 
-  const res = await fetch(process.env.NEXT_PUBLIC_API_URI + `/api/v1/blogs/`, {
-    method: "POST",
-    mode: "cors",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      title: event.target.title.value,
-      createdAt: event.target.createdAt.value,
-      content: event.target.content.value,
-    }),
-  });
-  if (!res.ok) throw new Error("Failed to fetch data");
+  if (id === "") {
+    const res = await fetch(process.env.NEXT_PUBLIC_API_URI + `/api/v1/blogs/`, {
+      method: "POST",
+      mode: "cors",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        title: event.target.title.value,
+        createdAt: event.target.createdAt.value,
+        content: event.target.content.value,
+      }),
+    });
+    if (!res.ok) throw new Error("Failed to fetch data");
 
-  window.location.href = "/articles";
-  return res.json();
+    window.location.href = "/articles";
+    return res.json();
+  } else {
+    const res = await fetch(process.env.NEXT_PUBLIC_API_URI + `/api/v1/blogs/${id}`, {
+      method: "PUT",
+      mode: "cors",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        title: event.target.title.value,
+        createdAt: event.target.createdAt.value,
+        content: event.target.content.value,
+      }),
+    });
+    if (!res.ok) throw new Error("Failed to fetch data");
+
+    window.location.href = "/articles";
+    return res.json();
+  }
 }
