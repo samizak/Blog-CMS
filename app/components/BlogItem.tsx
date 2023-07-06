@@ -1,6 +1,12 @@
-import { IArticleBlog } from "./IArticleBlog";
+"use client";
 
-export default async function BlogItem(blogArticle: IArticleBlog) {
+import Link from "next/link";
+import { IBlogArticle } from "./IArticleBlog";
+import dotenv from "dotenv";
+
+dotenv.config();
+
+export default function BlogItem(blogArticle: IBlogArticle) {
   return (
     <div className="flex flex-col gap-2 mt-4">
       <div className="flex flex-row justify-between p-4 bg-white rounded-md">
@@ -14,7 +20,13 @@ export default async function BlogItem(blogArticle: IArticleBlog) {
           </div>
           <div className="m-auto mr-4">{new Date(blogArticle.createdAt).toLocaleDateString("en-US")}</div>
 
-          <div className="flex flex-row gap-1 m-auto cursor-pointer">
+          <Link
+            className="flex flex-row gap-1 m-auto cursor-pointer"
+            href={{
+              pathname: "/edit-article",
+              query: { id: blogArticle._id },
+            }}
+          >
             <span className="m-auto">Edit</span>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -30,9 +42,20 @@ export default async function BlogItem(blogArticle: IArticleBlog) {
                 d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"
               />
             </svg>
-          </div>
+          </Link>
 
-          <div className="flex flex-row m-auto cursor-pointer">
+          <div
+            className="flex flex-row m-auto cursor-pointer"
+            onClick={async (e) => {
+              console.log(blogArticle);
+
+              const res = await DeleteArticle(blogArticle);
+
+              if (res.hasOwnProperty("success") && res["success"] === 1) {
+                window.location.reload();
+              }
+            }}
+          >
             <span className="m-auto">Delete</span>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -53,4 +76,16 @@ export default async function BlogItem(blogArticle: IArticleBlog) {
       </div>
     </div>
   );
+}
+
+async function DeleteArticle(blogArticle: IBlogArticle) {
+  console.log(process.env.NEXT_PUBLIC_API_URI + `/api/v1/blogs/${blogArticle._id}`);
+  console.log(JSON.stringify({ id: blogArticle._id }));
+
+  const res = await fetch(process.env.NEXT_PUBLIC_API_URI + `/api/v1/blogs/${blogArticle._id}`, {
+    method: "DELETE",
+    headers: { "Content-Type": "application/json" },
+  });
+  if (!res.ok) throw new Error("Failed to fetch data");
+  return { success: 1 };
 }

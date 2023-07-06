@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import Link from "next/link";
 
 export default function Sidebar() {
   return (
@@ -12,7 +13,7 @@ export default function Sidebar() {
           <div className="flex-auto h-32">
             <ul className="pt-2 pb-4 space-y-1 text-sm">
               <li className="rounded-sm">
-                <a href="#" className="flex items-center p-2 space-x-3 rounded-md">
+                <Link className="flex items-center p-2 space-x-3 rounded-md" href={"/dashboard"}>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="w-6 h-6 text-gray-100"
@@ -28,10 +29,10 @@ export default function Sidebar() {
                     />
                   </svg>
                   <span className="text-gray-100">Home</span>
-                </a>
+                </Link>
               </li>
               <li className="rounded-sm">
-                <a href="#" className="flex items-center p-2 space-x-3 rounded-md">
+                <Link className="flex items-center p-2 space-x-3 rounded-md" href={"/articles"}>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -48,7 +49,7 @@ export default function Sidebar() {
                   </svg>
 
                   <span className="text-gray-100">Articles</span>
-                </a>
+                </Link>
               </li>
               <li className="rounded-sm">
                 <a href="#" className="flex items-center p-2 space-x-3 rounded-md">
