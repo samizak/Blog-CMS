@@ -1,4 +1,4 @@
-export interface IArticleBlog {
+export interface IBlogArticle {
   _id: string;
   title: String;
   content: String;
