@@ -71,41 +71,33 @@ async function handleSubmit(event: any, id: string) {
   // Stop the form from submitting and refreshing the page.
   event.preventDefault();
 
-  if (id === "") {
-    const res = await fetch(process.env.NEXT_PUBLIC_API_URI + `/api/v1/blogs/`, {
-      method: "POST",
-      mode: "cors",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        title: event.target.title.value,
-        createdAt: event.target.createdAt.value,
-        content: event.target.content.value,
-      }),
-    });
-    if (!res.ok) throw new Error("Failed to fetch data");
+  const token = localStorage.getItem("token");
+  const bearer = `Bearer ${token}`;
 
-    window.location.href = "/articles";
-    return res.json();
-  } else {
-    const res = await fetch(process.env.NEXT_PUBLIC_API_URI + `/api/v1/blogs/${id}`, {
-      method: "PUT",
-      mode: "cors",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        title: event.target.title.value,
-        createdAt: event.target.createdAt.value,
-        content: event.target.content.value,
-      }),
-    });
-    if (!res.ok) throw new Error("Failed to fetch data");
+  let reqInfo: RequestInit = {
+    method: "POST",
+    mode: "cors",
+    headers: {
+      Authorization: bearer,
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      title: event.target.title.value,
+      createdAt: event.target.createdAt.value,
+      content: event.target.content.value,
+    }),
+  };
 
-    window.location.href = "/articles";
-    return res.json();
+  let _url = process.env.NEXT_PUBLIC_API_URI + `/api/v1/blogs/`;
+  if (id !== "") {
+    _url += id;
+    reqInfo.method = "PUT";
   }
+
+  const res = await fetch(_url, reqInfo);
+  if (!res.ok) throw new Error("Failed to fetch data");
+
+  window.location.href = "/articles";
+  return res.json();
 }
