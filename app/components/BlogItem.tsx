@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { IBlogArticle } from "./IArticleBlog";
+import { IBlogArticle } from "./IBlogArticle";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -77,9 +77,16 @@ export default function BlogItem(blogArticle: IBlogArticle) {
 }
 
 async function DeleteArticle(blogArticle: IBlogArticle) {
+  const token = localStorage.getItem("token");
+  const bearer = `Bearer ${token}`;
+
   const res = await fetch(process.env.NEXT_PUBLIC_API_URI + `/api/v1/blogs/${blogArticle._id}`, {
     method: "DELETE",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      Authorization: bearer,
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
   });
   if (!res.ok) throw new Error("Failed to fetch data");
   return { success: 1 };
