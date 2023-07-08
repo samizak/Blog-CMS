@@ -1,6 +1,6 @@
 import dotenv from "dotenv";
 import BlogItem from "../components/BlogItem";
-import { IBlogArticle } from "../components/IArticleBlog";
+import { IBlogArticle } from "../components/IBlogArticle";
 import Sidebar from "../components/Sidebar";
 import Link from "next/link";
 
