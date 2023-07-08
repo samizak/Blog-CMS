@@ -4,6 +4,10 @@
 
 This is the frontend CMS for the blog application, created using Next.JS reate, edit and delete blog articles.
 
+- [Link to Backend API](https://github.com/samizak/Blog-API).
+
+- [Link to Client Frontend](https://github.com/samizak/Blog-Client).
+
 ## Preview
 
 ### Articles
