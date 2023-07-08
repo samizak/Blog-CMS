@@ -5,7 +5,7 @@ import ArticleForm from "./ArticleForm";
 dotenv.config();
 
 async function getData(id: string) {
-  const res = await fetch(process.env.NEXT_PUBLIC_API_URI + `/api/v1/blogs/${id}`);
+  const res = await fetch(process.env.NEXT_PUBLIC_API_URI + `/api/v1/blogs/${id}`, { cache: "no-store" });
   if (!res.ok) throw new Error("Failed to fetch data");
   return res.json();
 }
