@@ -15,3 +15,8 @@ This is the frontend CMS for the blog application, created using Next.JS reate, 
 
 ### Editing Articles
 ![Untitled](https://github.com/samizak/Blog-CMS/assets/30938455/c3c53c6c-805e-42ed-96dd-d76642d44528)
+
+## Technologies
+* TypeScript
+* NextJS
+* Tailwind CSS
